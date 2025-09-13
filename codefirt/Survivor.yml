@@ -17,7 +17,7 @@ default:
 # ========================================================================
 
   index_symbol: "NSE:NIFTY 50"
-  symbol_initials: "NIFTY25807"
+  symbol_initials: "NIFTY 25 Sep 16"
 
 # ========================================================================
 # GAP PARAMETERS - TRADE TRIGGERING THRESHOLDS
