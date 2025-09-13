@@ -1,0 +1,5 @@
+fyers-apiv3
+pandas
+pyyaml
+rich
+playsound==1.2.2
