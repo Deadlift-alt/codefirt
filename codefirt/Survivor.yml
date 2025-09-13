@@ -1,0 +1,93 @@
+# ATM Option Buying Strategy Configuration
+# =========================================
+# This configuration defines parameters for an ATM-based option buying strategy,
+# where trades are initiated on strikes ATM-1, ATM, and ATM+1 based on NIFTY index price.
+# The approach aims to capture momentum with controlled risk.
+# STRATEGY OVERVIEW:
+# ==================
+# - CE (Call Buying): Triggered when NIFTY moves UP beyond ce_gap threshold.
+# - PE (Put Buying): Triggered when NIFTY moves DOWN beyond pe_gap threshold.
+# Unlike selling, this strategy has defined stop loss and target parameters for each leg.
+# Scaling/multipliers are optional but capped strictly to control risk.
+
+default:
+
+# ========================================================================
+# CORE TRADING PARAMETERS
+# ========================================================================
+
+  index_symbol: "NSE:NIFTY 50"
+  symbol_initials: "NIFTY 25 Sep 16"
+
+# ========================================================================
+# GAP PARAMETERS - TRADE TRIGGERING THRESHOLDS
+# ========================================================================
+# Gap movement threshold for PUT buying (market must fall this much to trigger PE buy)
+
+  pe_gap: 20
+
+# Gap movement threshold for CALL buying (market must rise this much to trigger CE buy)
+
+  ce_gap: 20
+
+# ========================================================================
+# POSITION SIZING PARAMETERS
+# ========================================================================
+# Lot quantity per strike (ATM-1, ATM, ATM+1)
+
+  base_quantity: 75
+
+# Maximum allowed multiplier (rarely used in buying strategy – to control risk)
+
+  buy_multiplier_threshold: 2
+
+# ========================================================================
+# STRIKE SELECTION PARAMETERS
+# ========================================================================
+# Selects ATM-1, ATM, and ATM+1 strikes dynamically
+
+  strike_selection:
+    - type: "ATM-1"
+    - type: "ATM"
+    - type: "ATM+1"
+
+# ========================================================================
+# RISK MANAGEMENT PARAMETERS
+# ========================================================================
+# Threshold for NIFTY movement in points to consider it 'not moving' for the signal
+  nifty_movement_threshold: 15
+
+# Maximum premium you’re willing to pay per option (avoid expensive entries)
+  max_price_to_buy: 300
+
+# Stop loss % per position (auto square-off if option loses more than this %)
+
+  stop_loss_percent: 25
+
+# Target % per position (exit if option gains this much)
+
+  target_percent: 50
+
+# Overall max loss for the day (strategy halts once breached)
+
+  daily_max_loss: 5000
+
+# Overall max profit for the day (locks gains and halts further trading)
+
+  daily_max_profit: 10000
+
+# ========================================================================
+# STARTING REFERENCE POINTS
+# ========================================================================
+
+  pe_start_point: 0
+  ce_start_point: 0
+
+# ========================================================================
+# ORDER EXECUTION PARAMETERS
+# ========================================================================
+
+  trans_type: "BUY"
+  exchange: "NFO"
+  order_type: "MARKET"
+  product_type: "MIS" # Intraday preferred for option buying
